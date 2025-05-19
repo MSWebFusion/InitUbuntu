@@ -1,5 +1,19 @@
 Mode opératoire d'installation.
 
+En local sur un powershell ou terminal faire : 
+
+export GITHUB_TOKEN=""
+
+chmod +x bootstrap.sh
+GITHUB_TOKEN=ghp_… ./bootstrap.sh 46.202.175.110 mon-repo-d-infra
+
+./bootstrap.sh \
+  --server-ip   46.202.175.110 \
+  --repo        flexibook \
+  --sa-password "Cjulpy4084!_;" \
+  --db-name     db_aa4484_bookingfusion \
+  --csharp-repo ghcr.io/MSWebFusion/flexibook \
+  --rust-repo   ghcr.io/MSWebFusion/rust_api
 
 Lancer le run_all.sh : 
 
