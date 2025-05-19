@@ -21,14 +21,16 @@ et teste la connexion : ssh -T git@github.com
 
 Lance :git clone git@github.com:mswebfusion/InitUbuntu.git
 
+Ajouter le PAT github
+
 Lancer le run_all.sh : 
 chmod +x run_all.sh
 
-sudo ./run_all.sh \
-  --sa-password 'Cjulpy4084!_;' \
-  --db-name "db_aa4484_bookingfusion" \
-  --csharp-repo "ghcr.io/MSWebFusion/flexibook" \
-  --rust-repo "ghcr.io/MSWebFusion/rust_api"
+sudo ./run_all.sh   
+	--sa-password 'Cjulpy4084!_;'   
+	--db-name "db_aa4484_bookingfusion"   
+	--csharp-repo "ghcr.io/mswebFusion/flexibook" \
+	--rust-repo "ghcr.io/mswebFusion/rust_api"
   
   
 
