@@ -76,11 +76,15 @@ fi
 
 export GHCR_USER="MSWebfusion"
 export GHCR_TOKEN=""
-
-echo "${GHCR_TOKEN}" \
-  | docker login ghcr.io \
-      --username "${GHCR_USER}" \
-      --password-stdin
+# 4) (Optionnel) Auth GHCR pour images privées
+if [[ -n "${GHCR_USER:-}" && -n "${GHCR_TOKEN:-}" ]]; then
+  echo "→ Authentification à GitHub Container Registry…"
+  docker login ghcr.io -u "${GHCR_USER}" -p "${GHCR_TOKEN}" || {
+    echo "⚠️ Échec du login GHCR, je continue sans auth."
+  }
+else
+  echo "ℹ️  Pas de GHCR_USER/GHCR_TOKEN, pull en public."
+fi
 
 # 5) Déploiement des services
 # on pull d'abord pour s'assurer d'avoir les dernières images
