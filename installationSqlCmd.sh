@@ -1,6 +1,12 @@
 #!/bin/bash
 set -euo pipefail
 
+# Avant apt-get install…
+echo "⏳ Attente du verrou dpkg…"
+while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
+  sleep 5
+done
+
 echo "🧹 Suppression d'éventuelles installations précédentes..."
 sudo apt-get remove --purge -y mssql-tools unixodbc-dev || true
 sudo rm -f /etc/apt/sources.list.d/mssql-release.list
@@ -12,7 +18,18 @@ echo "📦 Ajout du dépôt pour Ubuntu 22.04 (compatible avec Ubuntu 24.04)..."
 echo "deb [arch=amd64] https://packages.microsoft.com/ubuntu/22.04/prod jammy main" | sudo tee /etc/apt/sources.list.d/mssql-release.list > /dev/null
 
 echo "🔄 Mise à jour des paquets..."
+# Avant apt-get install…
+echo "⏳ Attente du verrou dpkg…"
+while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
+  sleep 5
+done
 sudo apt-get update
+
+# Avant apt-get install…
+echo "⏳ Attente du verrou dpkg…"
+while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
+  sleep 5
+done
 
 echo "📥 Installation de mssql-tools et unixODBC avec acceptation de la licence..."
 sudo ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev

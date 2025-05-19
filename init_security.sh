@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Avant apt-get install…
+echo "⏳ Attente du verrou dpkg…"
+while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
+  sleep 5
+done
+
 # 1) Mise à jour du système
 apt update
 DEBIAN_FRONTEND=noninteractive apt -y upgrade
@@ -31,6 +37,12 @@ if [ ! -f "${KEY_PATH}" ]; then
 else
   echo "→ Clé SSH pour deployer déjà existante (${KEY_PATH}), on ne la régénère pas."
 fi
+
+# Avant apt-get install…
+echo "⏳ Attente du verrou dpkg…"
+while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
+  sleep 5
+done
 
 # 4) Installation des paquets de sécurité
 apt install -y ufw fail2ban

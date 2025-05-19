@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# 1) Installation Docker + Compose
+# Avant apt-get install…
 apt update
+
+echo "⏳ Attente du verrou dpkg…"
+while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
+  sleep 5
+done
+# 1) Installation Docker + Compose
 apt install -y \
     ca-certificates \
     curl \
@@ -24,7 +30,15 @@ echo \
 # Universe pour docker-compose-plugin
 add-apt-repository universe -y
 
+
 apt update
+
+# Avant apt-get install…
+echo "⏳ Attente du verrou dpkg…"
+while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
+  sleep 5
+done
+
 apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 # Active Docker
