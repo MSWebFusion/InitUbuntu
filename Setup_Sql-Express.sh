@@ -68,7 +68,7 @@ if [[ -n "${CSHARP_GIT_REPO:-}" ]]; then
   git clone "${CSHARP_GIT_REPO}" csharp_src
 
   # chemin relatif vers le dossier qui contient le Dockerfile
-  CS_SRC_DIR="csharp_src/Api/Api"
+  CS_SRC_DIR="csharp_src/ApiBF/"
 
   # on vérifie que le Dockerfile existe bien
   if [[ ! -f "${CS_SRC_DIR}/Dockerfile" ]]; then
@@ -89,7 +89,7 @@ if [[ -n "${RUST_GIT_REPO:-}" ]]; then
   git clone "${RUST_GIT_REPO}" rust_src
 
   # chemin relatif vers le dossier qui contient le Dockerfile Rust
-  RUST_SRC_DIR="rust_src/Api/Api"
+  RUST_SRC_DIR="rust_src/Api"
 
   # on vérifie que le Dockerfile existe bien
   if [[ ! -f "${RUST_SRC_DIR}/Dockerfile" ]]; then
