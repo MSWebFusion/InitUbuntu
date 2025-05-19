@@ -1,5 +1,16 @@
 Mode opératoire d'installation.
 
+
+Lancer le run_all.sh : 
+
+sudo ./run_all.sh \
+  --sa-password "Cjulpy4084!_;" \
+  --db-name "db_aa4484_bookingfusion" \
+  --csharp-repo "ghcr.io/MSWebFusion/flexibook" \
+  --rust-repo "ghcr.io/MSWebFusion/rust_api"
+  
+  
+
 Sur ton pc récupère la clés : 
 
 scp root@<IP_de_ton_VPS>:/root/deployer_ed25519 ~/.ssh/deployer_ed25519
