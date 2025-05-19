@@ -74,6 +74,14 @@ if [ ! -f docker-compose.yml ]; then
   exit 1
 fi
 
+export GHCR_USER="MSWebfusion"
+export GHCR_TOKEN=""
+
+echo "${GHCR_TOKEN}" \
+  | docker login ghcr.io \
+      --username "${GHCR_USER}" \
+      --password-stdin
+
 # 5) Déploiement des services
 # on pull d'abord pour s'assurer d'avoir les dernières images
 # Récupère d’abord les images à jour
