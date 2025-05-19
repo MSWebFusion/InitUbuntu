@@ -54,7 +54,6 @@ export SA_PASSWORD DB_NAME CSHARP_REPO RUST_REPO
 SCRIPTS=(
   init_security.sh
   installationSqlCmd.sh
-  generate_compose.sh
   Setup_Sql-Express.sh
 )
 

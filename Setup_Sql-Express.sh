@@ -53,6 +53,18 @@ mkdir -p "${WORKDIR}"
 chown deployer:deployer "${WORKDIR}"
 cd "${WORKDIR}"
 
+# 3.1) Génération automatique du docker-compose.yml
+#    On suppose que generate_compose.sh est exécutable et dans le même dossier que run_all.sh
+echo "→ Génération de ${WORKDIR}/docker-compose.yml"
+bash /chemin/vers/generate_compose.sh \
+  --sa-password "${SA_PASSWORD}" \
+  --db-name     "${DB_NAME}" \
+  --csharp-repo "${CSHARP_REPO}" \
+  --rust-repo   "${RUST_REPO}" \
+  --out         "${WORKDIR}/docker-compose.yml"
+# On remet la bonne ownership sur le fichier
+chown deployer:deployer "${WORKDIR}/docker-compose.yml"
+
 # 4) Vérification de ton docker-compose.yml
 if [ ! -f docker-compose.yml ]; then
   echo "❌ Erreur : docker-compose.yml introuvable dans ${WORKDIR}"

@@ -21,8 +21,9 @@ EOF
   exit 1
 }
 
+
 # Lecture des arguments
-OUT=./docker-compose.yml
+OUT="/opt/api-backend/docker-compose.yml"
 while [[ $# -gt 0 ]]; do
   case $1 in
     --sa-password) SA_PASSWORD=$2; shift 2;;
@@ -34,11 +35,15 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+
 # Vérification
 : "${SA_PASSWORD:?– il faut passer --sa-password}"
 : "${DB_NAME:?      – il faut passer --db-name}"
 : "${CSHARP_REPO:?  – il faut passer --csharp-repo}"
 : "${RUST_REPO:?    – il faut passer --rust-repo}"
+
+
+mkdir -p "$(dirname "$OUT")"
 
 # Génération
 cat > "$OUT" <<EOF
