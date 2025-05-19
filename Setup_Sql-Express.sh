@@ -121,6 +121,8 @@ if [ ! -f docker-compose.yml ]; then
 fi
 
 # 7) Auth GitHub Container Registry (optionnel)
+
+
 if [[ -n "${GHCR_USER:-}" && -n "${GHCR_TOKEN:-}" ]]; then
   echo "→ Authentification à GitHub Container Registry…"
   docker login ghcr.io -u "${GHCR_USER}" -p "${GHCR_TOKEN}" || \
