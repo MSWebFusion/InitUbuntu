@@ -68,7 +68,7 @@ if [[ -n "${CSHARP_GIT_REPO:-}" ]]; then
   git clone "${CSHARP_GIT_REPO}" csharp_src
 
   # chemin relatif vers le dossier qui contient le Dockerfile
-  CS_SRC_DIR="csharp_src/ApiBF/"
+  CS_SRC_DIR="csharp_src/ApiBF/ApiBF/"
 
   # on vérifie que le Dockerfile existe bien
   if [[ ! -f "${CS_SRC_DIR}/Dockerfile" ]]; then
