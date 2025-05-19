@@ -19,6 +19,8 @@ ufw default deny incoming
 ufw default allow outgoing
 ufw allow ssh
 ufw allow 1433/tcp       # port SQL Server
+ufw allow 5000/tcp       # port api .NET
+ufw allow 8080/tcp       # port rust api
 ufw allow http           # si vous avez un serveur web
 ufw allow https          # pour TLS
 ufw --force enable

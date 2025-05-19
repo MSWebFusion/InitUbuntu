@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    container_name: sqlserver
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: unless-stopped
+    environment:
+      SA_PASSWORD: "Cjulpy4084!_;"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+
+  csharp_api:
+    container_name: csharp_api
+    image: ghcr.io/MSWebFusion/flexibook:${TAG}
+    restart: unless-stopped
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=db_aa4484_bookingfusion;User Id=sa;Password=Cjulpy4084!_;"
+      ASPNETCORE_URLS: "http://+:5000"
+    ports:
+      - "5000:5000"
+    depends_on:
+      - sqlserver
+    volumes:
+      # Persiste tout ce qui est dans wwwroot
+      - csharp-wwwroot:/app/wwwroot
+
+  rust_api:
+    container_name: rust_api
+    image: ghcr.io/MSWebFusion/rust_api:${TAG}
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: "sqlserver://sa:Cjulpy4084!_@sqlserver:1433/db_aa4484_bookingfusion"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - sqlserver
+    # Si tu découvres un dossier à persister pour Rust, tu pourras ajouter ici un volume
+    # - rust-data:/app/data
+
+volumes:
+  sqlserver-data:
+  csharp-wwwroot:
+  rust-data:  # décommente si nécessaire
