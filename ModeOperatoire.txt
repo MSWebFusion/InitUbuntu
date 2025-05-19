@@ -21,10 +21,8 @@ et teste la connexion : ssh -T git@github.com
 
 Lance :git clone git@github.com:mswebfusion/InitUbuntu.git
 
-
-export GITHUB_TOKEN=""
-
 Lancer le run_all.sh : 
+chmod +x run_all.sh
 
 sudo ./run_all.sh \
   --sa-password 'Cjulpy4084!_;' \

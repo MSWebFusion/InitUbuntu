@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+
+# Récupère le dossier du script
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 # Avant apt-get install…
 apt update
 
@@ -56,13 +60,12 @@ cd "${WORKDIR}"
 # 3.1) Génération automatique du docker-compose.yml
 #    On suppose que generate_compose.sh est exécutable et dans le même dossier que run_all.sh
 echo "→ Génération de ${WORKDIR}/docker-compose.yml"
-bash /chemin/vers/generate_compose.sh \
+/usr/bin/env bash "${SCRIPT_DIR}/generate_compose.sh" \
   --sa-password "${SA_PASSWORD}" \
   --db-name     "${DB_NAME}" \
   --csharp-repo "${CSHARP_REPO}" \
   --rust-repo   "${RUST_REPO}" \
   --out         "${WORKDIR}/docker-compose.yml"
-# On remet la bonne ownership sur le fichier
 chown deployer:deployer "${WORKDIR}/docker-compose.yml"
 
 # 4) Vérification de ton docker-compose.yml
