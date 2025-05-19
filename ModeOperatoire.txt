@@ -1,0 +1,18 @@
+Mode opératoire d'installation.
+
+Sur ton pc récupère la clés : 
+
+scp root@<IP_de_ton_VPS>:/root/deployer_ed25519 ~/.ssh/deployer_ed25519
+chmod 600 ~/.ssh/deployer_ed25519
+
+Ouvre ~/.ssh/deployer_ed25519 et copie tout son contenu (y compris les -----BEGIN OPENSSH PRIVATE KEY----- et -----END OPENSSH PRIVATE KEY-----).
+
+Dans ton dépôt GitHub, va dans Settings → Secrets → Actions et crée un secret :
+
+Name : DEPLOYER_SSH_KEY
+
+Value : le contenu exact de la clé privée
+
+Optionnel (pour nettoyage) : une fois copié et stocké en secret, tu peux supprimer la clé privée du VPS :
+
+ssh root@<IP_de_ton_VPS> rm -f /root/deployer_ed25519 /root/deployer_ed25519.pub
