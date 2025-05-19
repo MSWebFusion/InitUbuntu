@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Valeur par défaut si TAG n'est pas exportée
-: "${TAG:=latest}"
+# Valeurs par défaut et validations
+: "${TAG:=latest}"                  # fallback générique
+: "${CSHARP_TAG:?CSHARP_TAG doit être défini par le script appelant}"
+: "${DB_NAME:?      il faut passer --db-name}"
+# RUST_TAG est optionnel
+: "${RUST_TAG:-}"
 
+# Usage
 usage() {
   cat <<EOF
 Usage: $0 \
@@ -13,8 +18,9 @@ Usage: $0 \
   [--rust-repo RUST_REPO] \
   [--out FILE]
 
-Génère un docker-compose.yml dans FILE (défaut /opt/api-backend/docker-compose.yml).
+Génère un docker-compose.yml en utilisant les tags de commit pour les images C# et Rust.
 
+Options :
   --sa-password   mot de passe pour l’utilisateur sa de SQL Server
   --db-name       nom de la base à créer/utiliser
   --csharp-repo   dépôt de l’image C# (ex: ghcr.io/mswebfusion/flexibook)
@@ -39,12 +45,11 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# Vérifications obligatoires
+# Validations
 : "${SA_PASSWORD:?– il faut passer --sa-password}"
 : "${DB_NAME:?      – il faut passer --db-name}"
 
-# Normalise les noms de dépôts en lowercase pour Docker
-# (docker exige repository names en minuscules)
+# Normalisation lowercase
 if [[ -n "${CSHARP_REPO:-}" ]]; then
   CSHARP_REPO="${CSHARP_REPO,,}"
 fi
@@ -52,11 +57,12 @@ if [[ -n "${RUST_REPO:-}" ]]; then
   RUST_REPO="${RUST_REPO,,}"
 fi
 
-# Prépare le dossier de sortie
+# Prépare le répertoire de sortie
 mkdir -p "$(dirname "$OUT")"
 
 # Début du docker-compose
 cat > "$OUT" <<EOF
+version: '3.8'
 services:
   sqlserver:
     container_name: sqlserver
@@ -71,13 +77,13 @@ services:
       - sqlserver-data:/var/opt/mssql
 EOF
 
-# Ajoute le service C# si on a fourni un repo
+# Service C#
 if [[ -n "${CSHARP_REPO:-}" ]]; then
   cat >> "$OUT" <<EOF
 
   csharp_api:
     container_name: csharp_api
-    image: ${CSHARP_REPO}:${TAG}
+    image: ${CSHARP_REPO}:${CSHARP_TAG}
     restart: unless-stopped
     environment:
       ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=${DB_NAME};User Id=sa;Password=${SA_PASSWORD};"
@@ -91,13 +97,13 @@ if [[ -n "${CSHARP_REPO:-}" ]]; then
 EOF
 fi
 
-# Ajoute le service Rust si on a fourni un repo
-if [[ -n "${RUST_REPO:-}" ]]; then
+# Service Rust
+if [[ -n "${RUST_REPO:-}" && -n "${RUST_TAG:-}" ]]; then
   cat >> "$OUT" <<EOF
 
   rust_api:
     container_name: rust_api
-    image: ${RUST_REPO}:${TAG}
+    image: ${RUST_REPO}:${RUST_TAG}
     restart: unless-stopped
     environment:
       DATABASE_URL: "sqlserver://sa:${SA_PASSWORD}@sqlserver:1433/${DB_NAME}"
@@ -108,24 +114,21 @@ if [[ -n "${RUST_REPO:-}" ]]; then
 EOF
 fi
 
-# Section volumes
+# Volumes
 cat >> "$OUT" <<EOF
 
 volumes:
   sqlserver-data:
 EOF
-
 if [[ -n "${CSHARP_REPO:-}" ]]; then
   cat >> "$OUT" <<EOF
   csharp-wwwroot:
 EOF
 fi
-
-# (si tu veux un volume rust-data uniquement si rust_api existe)
-if [[ -n "${RUST_REPO:-}" ]]; then
+if [[ -n "${RUST_REPO:-}" && -n "${RUST_TAG:-}" ]]; then
   cat >> "$OUT" <<EOF
   rust-data:
 EOF
 fi
 
-echo "✔️  $OUT généré avec succès."
+echo "✔️  $OUT généré avec succès (C# tag=${CSHARP_TAG}${RUST_TAG:+, Rust tag=${RUST_TAG}})."
