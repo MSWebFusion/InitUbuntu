@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+CSHARP_REPO="${CSHARP_REPO:-}"
+RUST_REPO="${RUST_REPO:-}"
+
 usage() {
   cat <<EOF
 Usage: $0 \\
@@ -44,8 +47,6 @@ done
 # Vérification que tout est passé
 : "${SA_PASSWORD:?--sa-password est obligatoire}"
 : "${DB_NAME:?      --db-name est obligatoire}"
-: "${CSHARP_REPO:?  --csharp-repo est obligatoire}"
-: "${RUST_REPO:?    --rust-repo est obligatoire}"
 
 # --- 2) Export des variables pour les scripts ---
 export SA_PASSWORD DB_NAME CSHARP_REPO RUST_REPO
