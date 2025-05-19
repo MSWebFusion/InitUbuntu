@@ -76,9 +76,11 @@ fi
 
 # 5) Déploiement des services
 # on pull d'abord pour s'assurer d'avoir les dernières images
-docker compose pull sqlserver csharp_api rust_api
+# Récupère d’abord les images à jour
+docker compose pull
 
-# on recrée uniquement csharp_api et rust_api (sqlserver reste intact)
-docker compose up -d --no-deps --force-recreate csharp_api rust_api
+# Démarre tout (SQL + APIs)
+docker compose up -d --force-recreate
+
 
 echo "✔️  Services SQL, C# et Rust déployés."
