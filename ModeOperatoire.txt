@@ -1,24 +1,33 @@
 Mode opératoire d'installation.
 
-En local sur un powershell ou terminal faire : 
+
+
+sur ton vps : 
+
+ssh-keygen -t ed25519 -C "mswebfusion@gmail.com"
+
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+
+verifie avec : ssh-add -l
+
+
+copie : cat ~/.ssh/id_ed25519.pub et rajoute dans github 
+
+Sur GitHub, va dans Settings → SSH and GPG keys → New SSH key, colle le contenu, donne un titre, puis clique sur Add SSH key.
+
+et teste la connexion : ssh -T git@github.com
+
+
+Lance :git clone git@github.com:mswebfusion/InitUbuntu.git
+
 
 export GITHUB_TOKEN=""
-
-chmod +x bootstrap.sh
-GITHUB_TOKEN=ghp_… ./bootstrap.sh 46.202.175.110 mon-repo-d-infra
-
-./bootstrap.sh \
-  --server-ip   46.202.175.110 \
-  --repo        flexibook \
-  --sa-password "Cjulpy4084!_;" \
-  --db-name     db_aa4484_bookingfusion \
-  --csharp-repo ghcr.io/MSWebFusion/flexibook \
-  --rust-repo   ghcr.io/MSWebFusion/rust_api
 
 Lancer le run_all.sh : 
 
 sudo ./run_all.sh \
-  --sa-password "Cjulpy4084!_;" \
+  --sa-password 'Cjulpy4084!_;' \
   --db-name "db_aa4484_bookingfusion" \
   --csharp-repo "ghcr.io/MSWebFusion/flexibook" \
   --rust-repo "ghcr.io/MSWebFusion/rust_api"

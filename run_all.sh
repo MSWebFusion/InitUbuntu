@@ -55,7 +55,7 @@ SCRIPTS=(
   init_security.sh
   installationSqlCmd.sh
   generate_compose.sh
-  Setup_Docker_And_Deploy.sh
+  Setup_Sql-Express.sh
 )
 
 for script in "${SCRIPTS[@]}"; do
