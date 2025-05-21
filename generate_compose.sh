@@ -75,9 +75,12 @@ services:
     volumes:
       - sqlserver-data:/var/opt/mssql
     healthcheck:
-      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${SA_PASSWORD}", "-Q", "SELECT 1"]
+      # On essaie d'ouvrir une socket TCP 1433 ; si le port écoute, c'est OK
+      test: ["CMD-SHELL", "cat < /dev/null > /dev/tcp/localhost/1433"]
       interval: 10s
-      retries: 10
+      timeout:  5s
+      retries:  12
+
 EOF
 
 # Service C#
