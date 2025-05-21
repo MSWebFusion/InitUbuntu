@@ -74,12 +74,6 @@ services:
       - "1433:1433"
     volumes:
       - sqlserver-data:/var/opt/mssql
-    healthcheck:
-      # On essaie d'ouvrir une socket TCP 1433 ; si le port écoute, c'est OK
-      test: ["CMD-SHELL", "cat < /dev/null > /dev/tcp/localhost/1433"]
-      interval: 10s
-      timeout:  5s
-      retries:  12
 
 EOF
 

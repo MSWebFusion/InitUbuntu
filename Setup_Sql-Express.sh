@@ -112,6 +112,13 @@ else
   echo "ℹ️  Pas de GHCR_USER/GHCR_TOKEN, pull en public."
 fi
 
+echo "⏳  J’attends que SQL Server écoute sur le port 1433…"
+until bash -c '</dev/tcp/localhost/1433' &>/dev/null; do
+  printf '.'
+  sleep 5
+done
+echo "✅  SQL Server est UP, je peux lancer l’API."
+
 # 8) Pull et démarrage des services
 echo "→ Démarrage des services (build local si nécessaire)"
 docker compose up -d --build --force-recreate
