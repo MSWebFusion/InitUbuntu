@@ -91,7 +91,7 @@ if [[ -n "${CSHARP_REPO:-}" ]]; then
     ports:
       - "5000:5000"
     depends_on:
-      sqlserver
+      - sqlserver
     volumes:
       - csharp-wwwroot:/app/wwwroot
 EOF
