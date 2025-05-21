@@ -18,6 +18,8 @@ Sur GitHub, va dans Settings → SSH and GPG keys → New SSH key, colle le cont
 
 et teste la connexion : ssh -T git@github.com
 
+Faire cd .. 
+creation dossier Project : mkdir Project
 
 Lance :git clone git@github.com:mswebfusion/InitUbuntu.git
 
@@ -25,14 +27,17 @@ Ajouter le PAT github
 
 Lancer le run_all.sh : 
 chmod +x run_all.sh
+  
+  sudo ./run_all.sh \
+  --sa-password 'Cjulpy4084!_;' \
+  --db-name "db_aa4484_bookingfusion" \
+  --tag "v1.0.0" \
+  --csharp-repo "mswebfusion/flexibook" \
+  --rust-repo   "mswebfusion/rust_api" \
+  --ghcr-user   "mswebfusion" \
+  --ghcr-token  "ghp_XXXXXXXXXXXXXXXXXXXX"
 
-sudo ./run_all.sh   
-	--sa-password 'Cjulpy4084!_;'   
-	--db-name "db_aa4484_bookingfusion"   
-	--csharp-repo "ghcr.io/mswebFusion/flexibook" \
-	--rust-repo "ghcr.io/mswebFusion/rust_api"
-  
-  
+
 
 Sur ton pc récupère la clés : 
 

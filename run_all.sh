@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-
-export GHCR_USER="mswebfusion"
-export GHCR_TOKEN="ghp_XXXXXXXXXXXXXXXXXXXX"
+export PATH="/usr/local/bin:/usr/bin:/bin:$PATH"
 
 # valeur par défaut si non fourni
 TAG="latest"
@@ -11,6 +9,9 @@ TAG="latest"
 # initialisation pour éviter unbound variable
 CSHARP_REPO="${CSHARP_REPO:-}"
 RUST_REPO="${RUST_REPO:-}"
+GHCR_USER="${GHCR_USER:-}"
+GHCR_TOKEN="${GHCR_TOKEN:-}"
+
 
 usage() {
   cat <<EOF
@@ -19,7 +20,12 @@ Usage: $0 \\
   --db-name       DB_NAME \\  
   [--tag          TAG (default: latest)] \\  
   [--csharp-repo  <owner>/<repo>] \\  
-  [--rust-repo    <owner>/<repo>]
+  [--rust-repo    <owner>/<repo>] \\
+  [--tag          TAG (default: latest)] \\
+  [--csharp-repo  <owner>/<repo>] \\
+  [--rust-repo    <owner>/<repo>] \\
+  [--ghcr-user    GHCR_USER] \\
+  [--ghcr-token   GHCR_TOKEN]
 
 Exemple :
   $0 \\
@@ -49,6 +55,10 @@ while [[ $# -gt 0 ]]; do
       CSHARP_REPO="$2"; shift 2;;
     --rust-repo)
       RUST_REPO="$2"; shift 2;;
+	--ghcr-user)
+      GHCR_USER="$2"; shift 2;;
+    --ghcr-token)
+      GHCR_TOKEN="$2"; shift 2;;
     *)
       echo "❌ Option inconnue : $1"
       usage
@@ -91,6 +101,7 @@ fi
 export SA_PASSWORD DB_NAME TAG
 export CSHARP_REPO RUST_REPO
 export CSHARP_GIT_REPO RUST_GIT_REPO
+export GHCR_USER GHCR_TOKEN
 
 # --- 4) Lancement des scripts dans l’ordre ---
 SCRIPTS=(

@@ -62,7 +62,6 @@ mkdir -p "$(dirname "$OUT")"
 
 # Début du docker-compose
 cat > "$OUT" <<EOF
-version: '3.8'
 services:
   sqlserver:
     container_name: sqlserver
@@ -86,7 +85,7 @@ if [[ -n "${CSHARP_REPO:-}" ]]; then
     image: ${CSHARP_REPO}:${CSHARP_TAG}
     restart: unless-stopped
     environment:
-      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=${DB_NAME};User Id=sa;Password=${SA_PASSWORD};"
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=${DB_NAME};User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;"
       ASPNETCORE_URLS: "http://+:5000"
     ports:
       - "5000:5000"
