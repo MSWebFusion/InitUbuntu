@@ -86,11 +86,11 @@ fi
 # --- 1.c) Déduction des URLs Git pour build local ---
 if [[ -n "${CSHARP_REPO}" ]]; then
   repo_path="${CSHARP_REPO#ghcr.io/}"
-  CSHARP_GIT_REPO="https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/${repo_path}.git"
+  CSHARP_GIT_REPO="https://${GHCR_USER}:${GHCR_TOKEN}@github.com/${repo_path}.git"
 fi
 if [[ -n "${RUST_REPO}" ]]; then
   repo_path="${RUST_REPO#ghcr.io/}"
-  RUST_GIT_REPO="https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/${repo_path}.git"
+  RUST_GIT_REPO="https://${GHCR_USER}:${GHCR_TOKEN}@github.com/${repo_path}.git"
 fi
 
 # --- 2) Validation des obligatoires ---
