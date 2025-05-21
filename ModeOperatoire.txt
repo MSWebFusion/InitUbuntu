@@ -29,15 +29,21 @@ Lancer le run_all.sh :
 chmod +x run_all.sh
   
   sudo ./run_all.sh \
-  --sa-password 'Cjulpy4084!_;' \
+  --sa-password 'Cjulpy4084!_' \
   --db-name "db_aa4484_bookingfusion" \
   --tag "v1.0.0" \
   --csharp-repo "mswebfusion/flexibook" \
   --rust-repo   "mswebfusion/rust_api" \
   --ghcr-user   "mswebfusion" \
-  --ghcr-token  "ghp_XXXXXXXXXXXXXXXXXXXX"
+  --ghcr-token  "ghp..."
 
-
+sudo ./run_all.sh \
+  --sa-password 'Cjulpy4084!_' \
+  --db-name "db_aa4484_bookingfusion" \
+  --tag "v1.0.0" \
+  --csharp-repo "mswebfusion/flexibook" \
+  --ghcr-user   "mswebfusion" \
+  --ghcr-token  "ghp..."
 
 Sur ton pc récupère la clés : 
 

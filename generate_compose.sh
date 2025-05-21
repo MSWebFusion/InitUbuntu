@@ -74,6 +74,10 @@ services:
       - "1433:1433"
     volumes:
       - sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${SA_PASSWORD}", "-Q", "SELECT 1"]
+      interval: 10s
+      retries: 10
 EOF
 
 # Service C#
@@ -90,7 +94,8 @@ if [[ -n "${CSHARP_REPO:-}" ]]; then
     ports:
       - "5000:5000"
     depends_on:
-      - sqlserver
+      sqlserver:
+        condition: service_healthy
     volumes:
       - csharp-wwwroot:/app/wwwroot
 EOF
